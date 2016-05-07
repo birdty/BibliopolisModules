@@ -16,7 +16,7 @@ sub new
       $object = {};
   }
 
-  return $object, $class;
+  return bless $object, $class;
 }
 
 sub default

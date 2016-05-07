@@ -46,7 +46,7 @@ sub process_request
   {
       $action = pop(@parts);
   }
-  
+ 
   if ( $action )
   {
     my $prefix = 'Bibliopolis::Site::Administrative::Control::';
@@ -71,7 +71,7 @@ sub process_request
 	$self->console->send_message("Page Not Found or error in page." . $@);
 	return;
     }	
-  
+ 
     my $controller = $controller_class_name->new({
 	'parameters'	=> $self->parameters(),
 	'console'	=> $self->console(),
