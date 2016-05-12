@@ -1,8 +1,8 @@
-package Bibiliopolis::Entity::User;
+package Bibiliopolis::Entity::Product;
 
 sub _db_name { return 'bibliopolis'; }
 
-sub _db_table_name { return 'user'; }
+sub _db_table_name { return 'product'; }
 
 sub _db_table_id_column { return 'id'; }
 
@@ -10,10 +10,7 @@ sub _db_table_columns
 {
   return qw(
     id                  
-    first_name          
-    last_name           
-    username
-    password
+    name
   );
 }
 
