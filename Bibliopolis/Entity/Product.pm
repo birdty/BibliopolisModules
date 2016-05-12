@@ -10,6 +10,7 @@ sub _db_table_columns
 {
   return qw(
     id                  
+    account_id
     name
   );
 }

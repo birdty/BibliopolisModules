@@ -9,7 +9,8 @@ sub _db_table_id_column { return 'id'; }
 sub _db_table_columns
 {
   return qw(
-    id                  
+    id      
+    account_id
     first_name          
     last_name           
     email_address       
