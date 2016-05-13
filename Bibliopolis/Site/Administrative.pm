@@ -29,4 +29,22 @@ sub find_view
   }
 }
 
+sub available
+{
+  my ($self, $action) = @_;
+
+  my $allowed_actions = $self->allowed_actions();
+
+  $allowed_actions->{'default'} = 1;
+  
+  if ( $allowed_actions->{$action} )
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
 1;

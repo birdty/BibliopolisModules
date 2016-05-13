@@ -28,6 +28,8 @@ sub send_message
 
     $console_html_template =~ s{<<message>>}{$message}g;
 
+    warn("error: " . $details);
+
     print $console_html_template;
 }
 

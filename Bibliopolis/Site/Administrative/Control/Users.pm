@@ -1,18 +1,13 @@
-package Bibliopolis::Site::Administrative::Control::Index;
+package Bibliopolis::Site::Administrative::Control::Users;
 
 use base qw(Bibliopolis::Site::Administrative);
-
-sub allowed_actions
-{
-  return {'login' => 1};
-}
 
 sub default
 {
   my $self = shift;
 
   my $view = $self->find_view({
-	 'name' => 'Index',
+	 'name' => 'Users::Index',
 	 'type' => $self->view_type(),
 	 'bar' => '1'
   });
