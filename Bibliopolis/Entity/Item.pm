@@ -1,5 +1,7 @@
 package Bibiliopolis::Entity::Item;
 
+use base qw(Bibliopolis::Entity);
+
 sub _db_name { return 'bibliopolis'; }
 
 sub _db_table_name { return 'item'; }
