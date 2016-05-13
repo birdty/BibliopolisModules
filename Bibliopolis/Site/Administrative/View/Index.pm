@@ -15,9 +15,9 @@ sub default
 
     my $shell = $self->find_shell('type' => 'html');
 
-    $content = "hello";
+    my $contents = $self->read_template('index.tpl');
 
-    $shell->merge({'contents' => $content});
+    $shell->merge({'contents' => $contents});
 
     print $shell;
 }

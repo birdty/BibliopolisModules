@@ -18,6 +18,12 @@ sub new
   return bless $object, $class;
 }
 
+sub console
+{
+  my $self = shift;
+  return @_ ? $self->{'console'} = shift : $self->{'console'};
+}
+
 sub render
 {
   my($self, $args_href) = @_;
@@ -55,5 +61,27 @@ sub find_shell
   }
 }
 
+sub read_template
+{
+  my ($self, $filename) = @_;
+
+  my $full_filename_path = "templates/" . $filename;
+
+  if ( ! -e $full_filename_path )
+  {
+    $self->console->error_message("Cannot find template for file: " . $filename);
+    return;
+  }
+
+  my $contents;
+
+  my $fh = IO::File->new($full_filename_path, "r");
+  
+  my @lines = <$fh>;
+
+  $contents = join('', @lines);
+
+  return $contents;
+}
 
 1;

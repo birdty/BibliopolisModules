@@ -19,6 +19,7 @@ sub find_view
   {
       no strict 'refs';
       my $view = $view_module_name->new();
+      $view->console($self->console());
       use strict 'refs';
 
       return $view;
