@@ -96,7 +96,19 @@ sub process_request
 
 	use Data::Dumper;
       
-	if ( $controller && ! $controller->error_encountered() && ! $controller->view->error_encountered()  )
+	my $view = $controller->view();
+
+	if (
+		(
+			$controller && 
+			! $controller->error_encountered()
+		) 
+		||
+		(
+			$view && 
+			! $view->error_encountered()
+		)
+	)
 	{
 		
 	  $self->console->send_message("Error loading page " . $self->console(), Dumper(\$error));
