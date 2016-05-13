@@ -49,6 +49,7 @@ sub render
 
 sub merge
 {
+
   my($self, $args_href) = @_;
   
   foreach my $key ( keys %$args_href )
@@ -56,6 +57,7 @@ sub merge
       my $value = $args_href->{$key};
       $self->{'shell'} =~ s{<<$key>>}{$value}eg;
   }
+
 }
 
 1;
