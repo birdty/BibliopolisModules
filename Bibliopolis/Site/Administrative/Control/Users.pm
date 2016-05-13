@@ -7,7 +7,7 @@ sub default
   my $self = shift;
 
   my $view = $self->find_view({
-	 'name' => 'Users::Index',
+	 'name' =>  'Users',
 	 'type' => $self->view_type(),
 	 'bar' => '1'
   });

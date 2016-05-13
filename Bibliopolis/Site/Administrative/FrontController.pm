@@ -1,5 +1,7 @@
 package Bibliopolis::Site::Administrative::FrontController;
 
+use Error qw(:try);
+
 sub new
 {
    my ($class, $args_href) = @_;
@@ -72,16 +74,37 @@ sub process_request
 	return;
     }	
  
-    my $controller = $controller_class_name->new({
+    my $controller;
+
+    try
+    {
+      $controller = $controller_class_name->new({
 	'parameters'	=> $self->parameters(),
 	'console'	=> $self->console(),
 	'view_type' 	=> $self->{'view_type'}
-      }
-    );
+      });
 
-    use strict 'refs';
-  
-    $controller->execute($action);
+      use strict 'refs';
+
+      $controller->execute($action);
+
+    }
+    catch Error with 
+    {
+
+	my $error = shift;
+
+	use Data::Dumper;
+      
+	if ( $controller && ! $controller->error_encountered() )
+	{
+	  $self->console->send_message("Error loading page", Dumper(\$error));
+	}
+	elsif ( ! $controller )
+	{
+	  $self->console->send_message("Error in software system setup.", Dumper(\$error));
+	}
+    };
 
   }
 

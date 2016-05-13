@@ -31,6 +31,12 @@ sub view_type
   return @_ ? $self->{'view_type'} = shift : $self->{'view_type'};
 }
 
+sub error_encountered
+{
+  my $self = shift;
+  return @_ ? $self->{'error_encountered'} = shift : $self->{'error_encountered'};
+}
+
 sub parameter
 {
   my ($self, $name) = @_;
