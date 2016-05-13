@@ -25,7 +25,7 @@ sub find_view
   }
   else
   {
-     $self->console->send_message("Page template not found", "View Template not found: " . $view_module_name);
+     $self->console->send_message("Page template not found", "View Template not found: " . $view_module_name . $@);
      $self->error_encountered(1);
   }
 }
