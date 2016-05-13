@@ -44,6 +44,15 @@ sub render
   
   $self->{'shell'} =~ s{<<title>>}{$self->{'title'}}g;
 
+  if ( $self->{'type'} eq 'html' )
+  {
+    use MIME::Types;
+    my $mime_types = MIME::Types->new();
+
+    my $html_type = $mime_types->type('text/html');
+    print("Content-type: " . $html_type . "\n\n");
+  }
+
   return $self->{'shell'};
 }
 

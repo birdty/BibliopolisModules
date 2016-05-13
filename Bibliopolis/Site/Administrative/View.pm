@@ -24,6 +24,12 @@ sub console
   return @_ ? $self->{'console'} = shift : $self->{'console'};
 }
 
+sub error_encountered
+{
+  my $self = shift;
+  return @_ ? $self->{'error_encountered'} = shift : $self->{'error_encountered'};
+}
+
 sub render
 {
   my($self, $args_href) = @_;
@@ -69,7 +75,8 @@ sub read_template
 
   if ( ! -e $full_filename_path )
   {
-    $self->console->error_message("Cannot find template for file: " . $filename);
+    $self->console->send_message("Cannot find template for file: " . $filename);
+    $self->error_encountered(1);
     return;
   }
 
@@ -79,7 +86,8 @@ sub read_template
   
   my @lines = <$fh>;
 
-  $contents = join('', @lines);
+  # space added to make contents defined to caller.
+  $contents = ' ' . join('', @lines);
 
   return $contents;
 }

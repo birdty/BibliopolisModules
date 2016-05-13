@@ -6,13 +6,16 @@ sub default
 {
   my $self = shift;
 
-  my $view = $self->find_view({
-	 'name' =>  'Users',
-	 'type' => $self->view_type(),
-	 'bar' => '1'
-  });
+  $self->view(
+    $self->find_view({
+	    'name' =>  'Users',
+	    'type' => $self->view_type(),
+	    'bar' => '1'
+      }
+    )
+  );
 
-  $view->render({'method' => 'default'});
+  $self->view->render({'method' => 'default'});
 }
 
 1;

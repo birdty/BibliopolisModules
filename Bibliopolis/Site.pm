@@ -37,6 +37,12 @@ sub error_encountered
   return @_ ? $self->{'error_encountered'} = shift : $self->{'error_encountered'};
 }
 
+sub view
+{
+  my $self = shift;
+  return @_ ? $self->{'view'} = shift : $self->{'view'};
+}
+
 sub parameter
 {
   my ($self, $name) = @_;
