@@ -16,7 +16,7 @@ sub html_template
 
 sub send_message
 {
-    my ($self, $message) = @_;
+    my ($self, $message, $details) = @_;
 
     my $mimetypes = MIME::Types->new();
 
@@ -25,6 +25,7 @@ sub send_message
     print("Content-type: " . $html_mime_type . "\n\n");
 
     my $console_html_template = $self->html_template();
+
     $console_html_template =~ s{<<message>>}{$message}g;
 
     print $console_html_template;

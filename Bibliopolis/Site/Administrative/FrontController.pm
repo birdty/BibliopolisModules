@@ -68,7 +68,7 @@ sub process_request
 
     if ( ! $loaded )
     {
-	$self->console->send_message("Page Not Found or error in page." . $@);
+	$self->console->send_message("Page Not Found or error in page.", $@);
 	return;
     }	
  
