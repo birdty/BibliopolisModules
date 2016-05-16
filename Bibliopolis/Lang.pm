@@ -5,7 +5,6 @@ use warnings;
 
 our $VERSION = '0.1';
 
-
 #
 #% Create a new Language object.
 #
