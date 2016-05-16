@@ -1,4 +1,4 @@
-package Epromo::Date;
+package Bibliopolis::Date;
 
 use strict;
 use warnings;
