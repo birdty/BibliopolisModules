@@ -56,7 +56,19 @@ sub process_request
 
   my $action;
 
-  if ( scalar(@parts) <= 1 )
+  my $prefix = 'Bibliopolis::Site::Administrative::Control::';
+
+  my $controller_class_name;
+
+  $controller_class_name = $prefix . join('::', map { ucfirst($_) } @parts);
+
+  my $loaded = eval("require $controller_class_name;");
+  
+  if ( $loaded )
+  {
+      $action = 'default';
+  }
+  elsif ( scalar(@parts) <= 1 )
   {
       $action = 'default';
   }
@@ -67,9 +79,7 @@ sub process_request
  
   if ( $action )
   {
-    my $prefix = 'Bibliopolis::Site::Administrative::Control::';
-
-    my $controller_class_name = $prefix;
+    $controller_class_name = $prefix;
 
     if ( scalar(@parts) == 0 ) 
     {
@@ -82,7 +92,7 @@ sub process_request
   
     no strict 'refs';
 
-    my $loaded = eval("require $controller_class_name;");
+    $loaded = eval("require $controller_class_name;");
 
     if ( ! $loaded )
     {

@@ -23,6 +23,7 @@ sub default
 	$row =~ s{<<first_name>>}{$user->first_name()}eg;
 	$row =~ s{<<last_name>>}{$user->last_name()}eg;
 	$row =~ s{<<username>>}{$user->username()}eg;
+	$row =~ s{<<id>>}{$user->id()}eg;
 
 	$rows .= $row;
     }
