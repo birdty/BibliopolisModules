@@ -1,4 +1,7 @@
-package Bibiliopolis::Entity::Account;
+package Bibliopolis::Entity::Account;
+
+use strict;
+use warnings;
 
 use base qw(Bibliopolis::Entity);
 

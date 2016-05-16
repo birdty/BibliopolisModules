@@ -5,11 +5,11 @@ use warnings;
 
 our $VERSION = '0.1';
 
-require Epromo::DB::StatementCache;
-require Epromo::Buffer;
+require Bibliopolis::DB::StatementCache;
+require Bibliopolis::Buffer;
 
 use Error qw(:try);
-use Epromo::Utility::Operators qw(contains);
+use Bibliopolis::Utility::Operators qw(contains);
 
 our $AUTOLOAD;
 
@@ -1124,7 +1124,7 @@ sub _access_date
 	else { $self->_db_data(); }
 		
 	# Process To/From Mysql Date Field
-	require Epromo::Date;
+	require Bibliopolis::Date;
 
 	if ( @args )
 	{
@@ -1179,7 +1179,7 @@ sub _access_datetime
 	my ($self, $key, @args) = @_;
 			
 	# Process To/From Mysql Date Field
-	require Epromo::Date;
+	require Bibliopolis::Date;
 
 	my $datetime = join(' ', @args);
 
@@ -1229,7 +1229,7 @@ sub _access_datetime
 sub statement_cache 
 {
 	my $self = shift;
-	return Epromo::DB::StatementCache->new(@_ ? shift : $self->_db_name());
+	return Bibliopolis::DB::StatementCache->new(@_ ? shift : $self->_db_name());
 }
 
 
@@ -2400,7 +2400,7 @@ sub _lang
 
 	if ( ! exists $self->{'_lang'} )
 	{
-		require Epromo::Lang;
+		require Bibliopolis::Lang;
 		$self->{'_lang'} = Epromo::Lang->new();
 	}
 
@@ -2767,6 +2767,5 @@ sub attributes {
         my $self = shift;
         return $self->column_names();
 }
-
 
 1;
