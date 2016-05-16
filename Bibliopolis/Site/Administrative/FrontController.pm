@@ -36,7 +36,23 @@ sub process_request
 
   my @parts;
 
-  @parts = split(/\//, $request);
+  my $id;
+
+  my @canidate_parts = split(/\//, $request);
+
+  foreach my $part ( @canidate_parts )
+  {
+      if ( $part !~ /^([0-9]+)$/ )
+      {
+	  push(@parts, $part);
+      }
+      else
+      {
+	my $parameters = $self->parameters();
+	$parameters->{'id'} = $1;
+	$self->parameters($parameters);
+      }
+  }
 
   my $action;
 
@@ -63,7 +79,7 @@ sub process_request
     {
 	$controller_class_name .= join('::', map { ucfirst($_) } @parts);
     }
-
+  
     no strict 'refs';
 
     my $loaded = eval("require $controller_class_name;");
