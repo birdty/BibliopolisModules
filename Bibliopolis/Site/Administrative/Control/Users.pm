@@ -9,7 +9,7 @@ sub default
   require Bibliopolis::Entity::User;
 
   my @users = Bibliopolis::Entity::User->find_by('account_id' => 2);
-
+  
   $self->view(
     $self->find_view({
 	'name' =>  'Users',
@@ -24,7 +24,6 @@ sub default
       'users_aref' => \@users
     }
   );
-
 }
 
 1;
