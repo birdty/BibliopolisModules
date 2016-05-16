@@ -1,4 +1,4 @@
-package Bibiliopolis::Entity::User;
+package Bibliopolis::Entity::User;
 
 use base qw(Bibliopolis::Entity);
 

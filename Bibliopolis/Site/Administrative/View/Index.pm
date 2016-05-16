@@ -13,7 +13,7 @@ sub default
     if ( $contents )
     {	
       $shell->merge({'contents' => $contents});
-      print $shell;
+      return $shell;
     }
 }
 

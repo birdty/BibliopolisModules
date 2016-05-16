@@ -15,11 +15,13 @@ sub default
       $self->find_view({
 	 'name' => 'Index',
 	 'type' => $self->view_type(),
-	 'bar' => '1'
     })
   );
 
-  $self->view->render({'method' => 'default'});
+  print $self->view->render({
+	'method' => 'default',
+      }
+  );
 }
 
 1;

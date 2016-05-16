@@ -6,16 +6,23 @@ sub default
 {
   my $self = shift;
 
+  require Bibliopolis::Entity::User;
+
+  my @users = Bibliopolis::Entity::User->find_by('account_id' => 2);
+
   $self->view(
     $self->find_view({
-	    'name' =>  'Users',
-	    'type' => $self->view_type(),
-	    'bar' => '1'
+	'name' =>  'Users',
+	'type' => $self->view_type(),
       }
     )
   );
 
-  $self->view->render({'method' => 'default'});
+  print $self->view->render({
+      'method' => 'default',
+      'users_aref' => \@users
+    }
+  );
 }
 
 1;

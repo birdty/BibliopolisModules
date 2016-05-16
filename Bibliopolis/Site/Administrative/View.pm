@@ -40,7 +40,14 @@ sub render
 
   if ( $self->can($method) )
   {
-    $self->$method;
+    if ( $args_href )
+    {
+      return $self->$method($args_href);
+    }
+    else
+    {
+      return $self->$method;
+    }
   }
 
   use strict 'refs';
