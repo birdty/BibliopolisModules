@@ -104,10 +104,28 @@ sub process_request
 
     try
     {
+
+	require Bibliopolis::Site::Cookie;
+
+	my $cookies_href;
+
+	foreach my $cookie_string ( split(/; /, $ENV{HTTP_COOKIE} ) )
+	{
+		my ($key, $val) = split(/=/,$cookie_string);
+		my $cookie = Bibliopolis::Site::Cookie->new({'name' => $key, 'value' => $value});
+		$cookies_href->{$key} = $cookie;
+	}
+
+	if ( ! $cookies_href->{'login'} ) {
+	  $self->console->send_message("You are not logged in.", $@);
+	  return;  
+	}
+
       $controller = $controller_class_name->new({
 	'parameters'	=> $self->parameters(),
 	'console'	=> $self->console(),
-	'view_type' 	=> $self->{'view_type'}
+	'view_type' 	=> $self->{'view_type'},
+	'cookies_href'	=> $cookies_href
       });
 
       use strict 'refs';

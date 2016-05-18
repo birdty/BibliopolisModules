@@ -7,10 +7,28 @@ sub new
   my $object = bless {
       'parameters'	=> $args_href->{'parameters'},
       'console' 	=> $args_href->{'console'},
-      'view_type'	=> $args_href->{'view_type'}
+      'view_type'	=> $args_href->{'view_type'},
+      'cookies'		=> $args_href->{'cookies_href'}
   }, $class;
 
   return $object;
+}
+
+sub cookies
+{
+  my $self = shift;
+  return @_ ? $self->{'cookies'} = shift : $self->{'cookies'};
+}
+
+sub get_cookie
+{
+  my($self, $name) = @_;
+
+  my $cookies = $self->cookies();
+
+  if ( $cookies ) {
+      return $cookies->{$name};
+  }
 }
 
 sub parameters
