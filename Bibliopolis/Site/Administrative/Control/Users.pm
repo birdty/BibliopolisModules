@@ -26,4 +26,39 @@ sub default
   );
 }
 
+sub addform
+{
+  my $self = shift;
+
+  $self->view(
+    $self->find_view({
+	'name' =>  'Users',
+	'type' => $self->view_type(),
+      }
+    )
+  );
+
+  print $self->view->render(
+    {
+      'method' => 'addform',
+    }
+  );  
+}
+
+sub add
+{
+  my $self = shift;
+
+  require Bibliopolis::Entity::User;
+
+  Bibliopolis::Entity::User->create($self->parameters);
+
+  print("Status: 302 Redirect\nLocation: /users\n\n");
+}
+
+sub allowed_actions
+{
+  return {'addform' => 1, 'add' => 1};
+}
+
 1;

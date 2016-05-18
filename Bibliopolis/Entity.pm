@@ -2768,4 +2768,18 @@ sub attributes {
         return $self->column_names();
 }
 
+sub attribute_exists
+{
+    my ($self, $new_attribute) = @_;
+
+    my %exists;
+
+    foreach my $attribute ( $self->_db_table_columns() )
+    {
+	$exists{$attribute} = 1;
+    }
+
+    return $exists{$new_attribute};
+}
+
 1;

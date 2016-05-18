@@ -37,4 +37,20 @@ sub default
     }
 }
 
+sub addform
+{
+  my ($self, $args_href) = @_;
+
+  my $shell = $self->find_shell('type' => 'html');
+
+  my $contents = $self->read_template('users/add.tpl');
+
+  if ( $contents )
+  {	
+    $shell->merge({'contents' => $contents});
+    return $shell;
+  }
+
+}
+
 1;
