@@ -20,6 +20,14 @@ sub _db_table_columns
   );
 }
 
+sub id_fields
+{
+    return qw(
+      username
+      account_id
+    );
+}
+
 sub has_field_disabled { return 0; }
 
 sub create
@@ -46,5 +54,7 @@ sub create
 
   return $obj;
 }
+
+
 
 1;

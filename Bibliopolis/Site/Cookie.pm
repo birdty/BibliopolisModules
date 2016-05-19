@@ -37,5 +37,9 @@ sub value
   return @_ ? $self->{'value'} = shift : $self->{'value'};
 }
 
+sub delimeter
+{
+  return '[%%]';
+}
 
 1;

@@ -97,4 +97,57 @@ sub available
     return 0;
 }
 
+sub create_cookie
+{
+  my($self, %args) = @_;
+
+  require Bibliopolis::Site::Cookie;
+
+  # remove previous cookie if it exists and set new one.
+
+  # todo: add expiration argument if needed by app requirements.
+  # todo: add entity
+  
+  my $value;
+
+  my $entity;
+
+  my $delimeter = Bibliopolis::Site::Cookie->delimeter();
+
+  if ( $args{'entity'} )
+  {
+      $entity = $args{'entity'};
+
+      no strict 'refs';
+
+      $value = join($delimeter, map { $entity->$_ } $entity->id_fields() );
+
+      use strict 'refs';
+  }
+  else
+  {
+      $value = $args{'value'};
+  }
+
+  use CGI::Cookie;
+
+  my $cookie;
+
+  $cookie = CGI::Cookie->new(
+	  -name   => $args{'name'},
+	  -value  => ' ',
+	  -expires => '-1M'
+  );
+
+  print("Set-Cookie: " . $cookie->as_string() . "\n");
+
+  $cookie = CGI::Cookie->new(
+    -name => $args{'name'},
+    -value => $value,
+    -expires => '+1M'
+  );
+
+  print("Set-Cookie: " . $cookie->as_string() . "\n");
+}
+
 1;

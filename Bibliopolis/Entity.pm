@@ -2782,4 +2782,10 @@ sub attribute_exists
     return $exists{$new_attribute};
 }
 
+sub id_fields
+{
+    my $self = shift;
+
+}
+
 1;

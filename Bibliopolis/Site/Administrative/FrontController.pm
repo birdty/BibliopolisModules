@@ -56,11 +56,11 @@ sub process_request
 
   my $action;
 
-  my $prefix = 'Bibliopolis::Site::Administrative::Control::';
+  my $base_controller_class_name = 'Bibliopolis::Site::Administrative::Control';
 
-  my $controller_class_name;
-
-  $controller_class_name = $prefix . join('::', map { ucfirst($_) } @parts);
+  my $remaining_class_name = join('::', map { ucfirst($_) } @parts);
+  
+  my $controller_class_name = $base_controller_class_name . '::' . $remaining_class_name;
 
   my $loaded = eval("require $controller_class_name;");
   
@@ -79,15 +79,15 @@ sub process_request
  
   if ( $action )
   {
-    $controller_class_name = $prefix;
+    $controller_class_name = $base_controller_class_name;
 
     if ( scalar(@parts) == 0 ) 
     {
-      $controller_class_name .= 'Index';
+      $controller_class_name .= '::Index';
     }
     else
     {
-	$controller_class_name .= join('::', map { ucfirst($_) } @parts);
+	$controller_class_name .=  '::' . join('::', map { ucfirst($_) } @parts);
     }
   
     no strict 'refs';
@@ -99,27 +99,31 @@ sub process_request
 	$self->console->send_message("Page Not Found or error in page.", $@);
 	return;
     }	
- 
+
     my $controller;
 
     try
     {
+      require Bibliopolis::Site::Cookie;
 
-	require Bibliopolis::Site::Cookie;
+      my $cookies_href;
 
-	my $cookies_href;
+      foreach my $cookie_string ( split(/; /, $ENV{HTTP_COOKIE} ) )
+      {
+	      my ($key, $val) = split(/=/,$cookie_string);
+	      my $cookie = Bibliopolis::Site::Cookie->new({'name' => $key, 'value' => $value});
+	      $cookies_href->{$key} = $cookie;
+      }
 
-	foreach my $cookie_string ( split(/; /, $ENV{HTTP_COOKIE} ) )
-	{
-		my ($key, $val) = split(/=/,$cookie_string);
-		my $cookie = Bibliopolis::Site::Cookie->new({'name' => $key, 'value' => $value});
-		$cookies_href->{$key} = $cookie;
-	}
-
-	if ( ! $cookies_href->{'login'} ) {
-	  $self->console->send_message("You are not logged in.", $@);
-	  return;  
-	}
+      if (
+	$remaining_class_name !~ /^Login$/  &&
+	! $cookies_href->{'login'} 
+      )
+      {
+	$controller_class_name = 'Bibliopolis::Site::Administrative::Control::Login';
+	eval("require $controller_class_name;");
+	$action = 'login_form';
+      }
 
       $controller = $controller_class_name->new({
 	'parameters'	=> $self->parameters(),
@@ -131,16 +135,19 @@ sub process_request
       use strict 'refs';
 
       $controller->execute($action);
-
     }
     catch Error with 
     {
-
 	my $error = shift;
 
 	use Data::Dumper;
       
-	my $view = $controller->view();
+	my $view;
+
+	if ( $controller )
+	{
+	    $view = $controller->view();
+	}
 
 	if (
 		(
@@ -154,7 +161,6 @@ sub process_request
 		)
 	)
 	{
-		
 	  $self->console->send_message("Error loading page " . $self->console(), Dumper(\$error));
 	}
 	elsif ( ! $controller )

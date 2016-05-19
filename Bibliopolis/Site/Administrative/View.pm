@@ -64,9 +64,19 @@ sub find_shell
   else
   {
     require Bibliopolis::Site::Administrative::Shell;
-    
+ 
+	my $name;
+
+	if ( $args{'name'} ) {
+		$name = $args{'name'};
+	}
+	else
+	{
+		$name = 'index';
+	}
+   
     $self->{'shell'} = Bibliopolis::Site::Administrative::Shell->new({
-	'name' => 'index',
+	'name' => $name,
 	'type' => $args{'type'}
     });
     
