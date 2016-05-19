@@ -6,7 +6,13 @@ sub default
 {
     my ($self, $args_href) = @_;
 
-    my $shell = $self->find_shell('type' => 'html');
+    my $shell = $self->find_shell(
+	'type' => 'html'
+    );
+
+    # shell view should get data from
+    # shell controller.
+    
 
     my $contents = $self->read_template('users.tpl');
 
@@ -36,7 +42,12 @@ sub default
 
     if ( $contents )
     {	
-      $shell->merge({'contents' => $contents});
+      $shell->merge(
+	  {
+	    'contents'	=> $contents,
+	    'name'	=> $user->name()
+	  }
+      );
       return $shell;
     }
 }
