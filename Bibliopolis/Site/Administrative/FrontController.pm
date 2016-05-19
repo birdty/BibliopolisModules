@@ -108,11 +108,13 @@ sub process_request
 
       my $cookies_href;
 
-      foreach my $cookie_string ( split(/; /, $ENV{HTTP_COOKIE} ) )
+      my %cookies = CGI::Cookie->fetch;
+
+      foreach my $name ( keys %cookies )
       {
-	      my ($key, $val) = split(/=/,$cookie_string);
-	      my $cookie = Bibliopolis::Site::Cookie->new({'name' => $key, 'value' => $value});
-	      $cookies_href->{$key} = $cookie;
+	      my $cgi_cookie = $cookies{$name};
+	      my $cookie = Bibliopolis::Site::Cookie->new({'name' => $name, 'value' => $cgi_cookie->value()});
+	      $cookies_href->{$name} = $cookie;
       }
 
       if (

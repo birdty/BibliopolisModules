@@ -27,7 +27,14 @@ sub get_cookie
   my $cookies = $self->cookies();
 
   if ( $cookies ) {
-      return $cookies->{$name};
+
+      require Bibliopolis::Site::Cookie;
+
+      my $cookie_href = $cookies->{$name};
+
+      my $cookie = Bibliopolis::Site::Cookie->new({'name' => $cookie_href->{'name'}, 'value' => $cookie_href->{'value'}});
+
+      return $cookie;
   }
 }
 
@@ -120,7 +127,7 @@ sub create_cookie
 
       no strict 'refs';
 
-      $value = join($delimeter, map { $entity->$_ } $entity->id_fields() );
+      $value = join($delimeter, map { $_ . '=' . $entity->$_ } $entity->id_fields() );
 
       use strict 'refs';
   }
@@ -148,6 +155,23 @@ sub create_cookie
   );
 
   print("Set-Cookie: " . $cookie->as_string() . "\n");
+}
+
+sub send_content_type
+{
+  my($self, $ct) = @_;
+
+  my $content_type;
+  
+  $content_type = $ct;
+
+  if ( ! $content_type )
+  {
+      $content_type = 'text/html';
+  }
+
+  print("Content-type: $content_type\n\n");
+
 }
 
 1;

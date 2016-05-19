@@ -16,6 +16,10 @@ sub default
 
     my $rows;
 
+    my $user = $args_href->{'user'};
+
+    $contents =~ s{<<name>>}{$user->name()}eg;
+
     foreach my $user ( @{$args_href->{'users_aref'}} )
     {
 	my $row = $row_template;

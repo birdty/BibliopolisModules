@@ -28,6 +28,12 @@ sub id_fields
     );
 }
 
+sub name
+{
+  my $self = shift;
+  return $self->first_name() . " " . $self->last_name();
+}
+
 sub has_field_disabled { return 0; }
 
 sub create

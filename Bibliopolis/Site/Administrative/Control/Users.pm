@@ -8,20 +8,30 @@ sub default
 
   require Bibliopolis::Entity::User;
 
-  my @users = Bibliopolis::Entity::User->find_by('account_id' => 2);
-  
+  my $login_cookie = $self->get_cookie('login');
+
+  my @users = Bibliopolis::Entity::User->find_by(
+     'account_id' => $login_cookie->get_property('account_id')
+  );
+
+  my $user = Bibliopolis::Entity::User->find_by(
+    'username' => $login_cookie->get_property('username'),
+    'account_id' => $login_cookie->get_property('account_id')
+  );
+
   $self->view(
-    $self->find_view({
+    $self->find_view(
+      {
 	'name' =>  'Users',
 	'type' => $self->view_type(),
       }
     )
   );
 
-  print $self->view->render(
-    {
+  print $self->view->render({
       'method' => 'default',
-      'users_aref' => \@users
+      'users_aref' => \@users,
+      'user' => $user
     }
   );
 }
