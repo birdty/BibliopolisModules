@@ -73,7 +73,7 @@ sub get_property
 
 sub delimeter
 {
-  return '\[%%\]';
+  return '%bibliopolis33%';
 }
 
 1;

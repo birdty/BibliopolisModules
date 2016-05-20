@@ -120,9 +120,26 @@ sub save
   print("Status: 302 Redirect\nLocation: /users\n\n");
 }
 
+sub delete
+{
+  my $self = shift;
+
+  if ( ! $self->parameters->{'id'} )
+  {
+      $self->console->send_mesage("Invalid User");
+      return;
+  }
+
+  require Bibliopolis::Entity::User;
+
+  Bibliopolis::Entity::User->delete_by_id($self->parameters->{'id'});
+
+  print("Status: 302 Redirect\nLocation: /users\n\n");
+}
+
 sub allowed_actions
 {
-  return {'add_form' => 1, 'add' => 1, 'edit_form' => 1, 'save' => 1};
+  return {'add_form' => 1, 'add' => 1, 'edit_form' => 1, 'save' => 1, 'delete' => 1};
 }
 
 1;

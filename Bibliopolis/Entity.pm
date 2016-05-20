@@ -2812,4 +2812,42 @@ sub set_non_id_properties_from_href
 
 }
 
+sub delete_by_id
+{
+  my ($class, $id) = @_;
+
+  use Scalar::Util qw(reftype);
+
+  my $reftype;
+
+  $reftype = reftype($id);
+
+  my @values;
+
+  my $ids_string;
+
+  my @columns;
+
+  if ( $reftype && $reftype eq 'ARRAY' )
+  {    
+    my $i = 0;
+
+    foreach my $column ( $class->_db_table_id_colum() )
+    {
+	$ids_string .= qq[ $column = ? ];
+	push(@values, $id->[$i]);
+	$i++;
+    } 
+  }
+  else
+  {
+    $ids_string = $class->_db_table_id_column() . qq[ = ? ];
+    push(@values, $id);
+  }
+
+  my $sql_statement = qq[DELETE FROM ] . $class->_db_table_name() . qq[ WHERE $ids_string ];
+  my $sth = $class->statement_cache->statement($sql_statement);
+  $sth->execute(@values);
+}
+
 1;
