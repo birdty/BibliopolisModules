@@ -109,4 +109,20 @@ sub read_template
   return $contents;
 }
 
+sub merge_entity_attributes
+{
+	my($self, $entity, $string_ref) = @_;
+
+	no strict 'refs';
+
+	foreach my $attribute_name ( $entity->attributes() )
+	{
+		my $value = $entity->$attribute_name;
+		$$string_ref =~ s{<<$attribute_name>>}{$value}g;
+	}
+
+	use strict 'refs';
+}
+
+
 1;

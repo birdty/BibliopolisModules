@@ -36,7 +36,7 @@ sub default
   );
 }
 
-sub addform
+sub add_form
 {
   my $self = shift;
 
@@ -50,9 +50,10 @@ sub addform
 
   print $self->view->render(
     {
-      'method' => 'addform',
+      'method' => 'add_form',
     }
   );  
+
 }
 
 sub add
@@ -66,9 +67,62 @@ sub add
   print("Status: 302 Redirect\nLocation: /users\n\n");
 }
 
+sub edit_form
+{
+  my $self = shift;
+
+  require Bibliopolis::Entity::User;
+
+  if ( ! $self->parameters->{'id'} ) {
+      $self->console->send_message("Invalid user");
+      return;
+  }
+
+  my $user = Bibliopolis::Entity::User->find_by_id($self->parameters->{'id'});
+
+  if ( ! $user )  {
+    $self->console->send_message("Invalid User");
+    return;
+  }
+
+  $self->view(
+    $self->find_view({
+	'name' =>  'Users',
+	'type' => $self->view_type(),
+      }
+    )
+  );
+
+  print $self->view->render(
+    {
+      'method' => 'edit_form',
+      'user' => $user
+    }
+  );  
+}
+
+sub save
+{
+  my $self = shift;
+
+  require Bibliopolis::Entity::User;
+
+  if ( ! $self->parameters->{'id'} )
+  {
+      $self->console->send_message("Invalid User");
+      return;
+  }
+
+  my $user = Bibliopolis::Entity::User->find_by_id($self->parameters->{'id'});
+  $user->set_non_id_properties_from_href($self->parameters);
+  $user->save();
+
+  print("Status: 302 Redirect\nLocation: /users\n\n");
+}
+
 sub allowed_actions
 {
-  return {'addform' => 1, 'add' => 1};
+  return {'add_form' => 1, 'add' => 1, 'edit_form' => 1, 'save' => 1};
 }
 
 1;

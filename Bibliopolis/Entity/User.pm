@@ -14,7 +14,8 @@ sub _db_table_columns
     id                  
     account_id
     first_name          
-    last_name           
+    last_name
+    email_address
     username
     password
   );

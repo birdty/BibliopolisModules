@@ -52,7 +52,7 @@ sub default
     }
 }
 
-sub addform
+sub add_form
 {
   my ($self, $args_href) = @_;
 
@@ -67,5 +67,26 @@ sub addform
   }
 
 }
+
+sub edit_form
+{
+  my ($self, $args_href) = @_;
+
+  my $shell = $self->find_shell('type' => 'html');
+
+  my $contents = $self->read_template('users/edit.tpl');
+
+  my $user = $args_href->{'user'};
+
+  $self->merge_entity_attributes($user, \$contents);
+
+  if ( $contents )
+  {	
+    $shell->merge({'contents' => $contents});
+    return $shell;
+  }
+}
+
+
 
 1;

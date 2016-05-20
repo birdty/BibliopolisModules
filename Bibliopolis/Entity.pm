@@ -2788,4 +2788,28 @@ sub id_fields
 
 }
 
+sub set_non_id_properties_from_href
+{
+  my ($self, $href) = @_;
+
+  my @ids = $self->_db_table_id_colum();
+
+  my %ids = map { $_ => 1 } @ids;
+
+  no strict 'refs';
+
+  foreach my $attribute_name ( $self->attributes() )
+  {
+    my $value = $href->{$attribute_name};
+
+    if ( ! $ids{$attribute_name} )
+    {
+      $self->$attribute_name($value);
+    }
+  }
+
+  use strict 'refs';
+
+}
+
 1;
