@@ -2792,7 +2792,7 @@ sub set_non_id_properties_from_href
 {
   my ($self, $href) = @_;
 
-  my @ids = $self->_db_table_id_colum();
+  my @ids = $self->_db_table_id_column();
 
   my %ids = map { $_ => 1 } @ids;
 
