@@ -62,9 +62,25 @@ sub add
 
   require Bibliopolis::Entity::User;
 
-  Bibliopolis::Entity::User->create($self->parameters);
+  my @args = map { $_ => $self->parameters->{$_} } keys %{$self->parameters};
 
-  print("Status: 302 Redirect\nLocation: /users\n\n");
+  my $user = Bibliopolis::Entity::User->create(@args);
+
+  $self->view(
+    $self->find_view({
+	'name' =>  'Users',
+	'type' => $self->view_type(),
+      }
+    )
+  );
+
+  print $self->view->render(
+    {
+      'method' => 'add',
+      'user' => $user,
+      'success' => 1
+    }
+  );  
 }
 
 sub edit_form
@@ -134,7 +150,20 @@ sub delete
 
   Bibliopolis::Entity::User->delete_by_id($self->parameters->{'id'});
 
-  print("Status: 302 Redirect\nLocation: /users\n\n");
+  $self->view(
+    $self->find_view({
+	'name' =>  'Users',
+	'type' => $self->view_type(),
+      }
+    )
+  );
+
+  print $self->view->render(
+    {
+      'method' => 'delete',
+      'success' => 1
+    }
+  );  
 }
 
 sub allowed_actions

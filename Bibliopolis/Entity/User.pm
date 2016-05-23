@@ -37,31 +37,4 @@ sub name
 
 sub has_field_disabled { return 0; }
 
-sub create
-{
-  my($class, $href) = @_;
-
-  no strict 'refs';
-
-  my $obj = $class->new();
-
-  foreach my $attrib_name ( keys %$href )
-  {
-      my $value = $href->{$attrib_name};
-
-      if ( $obj->attribute_exists($attrib_name) )
-      {
-	  $obj->$attrib_name($value);
-      }
-  }
-
-  $obj->save();
-
-  use strict 'refs';
-
-  return $obj;
-}
-
-
-
 1;

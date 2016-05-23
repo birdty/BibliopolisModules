@@ -87,6 +87,51 @@ sub edit_form
   }
 }
 
+sub add
+{
+  my ($self, $args_href) = @_;
+
+  require Bibliopolis::Utility::JSON;
+
+  my $user = $args_href->{'user'};
+
+  my $row_template = $self->read_template('users/row.tpl');
+  
+  my $row = $row_template;
+
+  $row =~ s{<<id>>}{$user->id()}eg;
+  $row =~ s{<<first_name>>}{$user->first_name()}eg;
+  $row =~ s{<<last_name>>}{$user->last_name()}eg;
+  $row =~ s{<<username>>}{$user->username()}eg;
+
+  my $json = Bibliopolis::Utility::JSON->render(
+      {
+	'success' 	=> $args_href->{'success'},
+	'user_id' 	=> $user->id(),
+	'first_name'	=> $user->first_name(),
+	'last_name'	=> $user->last_name(),
+	'username'	=> $user->username(),
+	'row'		=> $row
+      }
+  );
+
+  return $json;
+}
+
+sub delete
+{
+  my ($self, $args_href) = @_;
+
+  require Bibliopolis::Utility::JSON;
+
+  my $json = Bibliopolis::Utility::JSON->render(
+      {
+	'success' 	=> $args_href->{'success'},
+      }
+  );
+
+  return $json;
+}
 
 
 1;
