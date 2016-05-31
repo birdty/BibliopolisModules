@@ -86,6 +86,7 @@ sub add
 
 sub edit_form
 {
+
   my $self = shift;
 
   require Bibliopolis::Entity::User;

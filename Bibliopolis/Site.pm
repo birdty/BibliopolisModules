@@ -104,6 +104,24 @@ sub available
     return 0;
 }
 
+
+sub remove_cookie
+{
+  my($self, %args) = @_;
+
+  use CGI::Cookie;
+
+  my $cookie;
+
+  $cookie = CGI::Cookie->new(
+	  -name   => $args{'name'},
+	  -value  => ' ',
+	  -expires => '-1M'
+  );
+
+  print("Set-Cookie: " . $cookie->as_string() . "\n");
+}
+
 sub create_cookie
 {
   my($self, %args) = @_;
@@ -111,7 +129,6 @@ sub create_cookie
   require Bibliopolis::Site::Cookie;
 
   # remove previous cookie if it exists and set new one.
-
   # todo: add expiration argument if needed by app requirements.
   # todo: add entity
   

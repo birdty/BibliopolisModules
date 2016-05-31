@@ -34,7 +34,7 @@ sub process_request
   
   $request =~ s/^\///g;
 
-  my @parts;
+  my @request_parts;
 
   my $id;
 
@@ -44,7 +44,7 @@ sub process_request
   {
       if ( $part !~ /^([0-9]+)$/ )
       {
-	  push(@parts, $part);
+	push(@request_parts, $part);
       }
       else
       {
@@ -58,37 +58,50 @@ sub process_request
 
   my $base_controller_class_name = 'Bibliopolis::Site::Administrative::Control';
 
-  my $remaining_class_name = join('::', map { ucfirst($_) } @parts);
+  my $remaining_class_name = join('::', map { ucfirst($_) } @request_parts);
   
   my $controller_class_name = $base_controller_class_name . '::' . $remaining_class_name;
 
   my $loaded = eval("require $controller_class_name;");
   
+  # algorithm here finds
+  # the action for the url
+
   if ( $loaded )
   {
-      $action = 'default';
-  }
-  elsif ( scalar(@parts) <= 1 )
-  {
+      # if url == full controller name then we accept the action as the default.
       $action = 'default';
   }
   else
   {
-      $action = pop(@parts);
+      # if url cannot be loaded we accept the action as the last part of the url.
+      $action = pop(@request_parts);
   }
+
+  # if parts in the url or if no action from url
+  # we set action to default.
+
+  if ( @request_parts == 0 && ! $action )
+  {
+      $action = 'default';
+  }
+  
  
   if ( $action )
   {
     $controller_class_name = $base_controller_class_name;
 
-    if ( scalar(@parts) == 0 ) 
+    if ( scalar(@request_parts) == 0 ) 
     {
       $controller_class_name .= '::Index';
     }
     else
     {
-	$controller_class_name .=  '::' . join('::', map { ucfirst($_) } @parts);
+	$controller_class_name .=  '::' . join('::', map { ucfirst($_) } @request_parts);
     }
+
+  #  print("[" . $controller_class_name . "]\n");
+ #   print("[" . $action . "]\n");
   
     no strict 'refs';
 
@@ -170,9 +183,7 @@ sub process_request
 	  $self->console->send_message("Error in software system setup.", Dumper(\$error));
 	}
     };
-
   }
-
 }
 
 1;

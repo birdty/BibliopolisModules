@@ -4,7 +4,7 @@ use base qw(Bibliopolis::Site::Administrative);
 
 sub allowed_actions
 {
-  return {'login' => 1};
+  return {'login' => 1, 'logout' => 1};
 }
 
 sub default
@@ -22,6 +22,17 @@ sub default
 	'method' => 'default',
       }
   );
+}
+
+sub logout
+{
+  my $self = shift;
+
+  $self->remove_cookie('name' => 'login');
+
+  print("Status: 302 Redirect\nLocation: /\n\n");
+
+  return;
 }
 
 1;
