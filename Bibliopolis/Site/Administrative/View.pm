@@ -75,6 +75,16 @@ sub find_shell
 		$name = 'index';
 	}
    
+
+    # when view finds shell
+    # maybe different sites have different layouts/shells
+    # perhaps we can change the shell instantiated and added in the sites fron controller
+    # if you change your layout.
+
+    # and perhaps you could have many sub controllers for screen sections
+    # if your site gets big enough.
+
+
     $self->{'shell'} = Bibliopolis::Site::Administrative::Shell->new({
 	'name' => $name,
 	'type' => $args{'type'},
