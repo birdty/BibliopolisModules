@@ -13,7 +13,6 @@ sub default
     # shell view should get data from
     # shell controller.
     
-
     my $contents = $self->read_template('users.tpl');
 
     my $row_template = $self->read_template('users/row.tpl');
@@ -126,12 +125,11 @@ sub delete
 
   my $json = Bibliopolis::Utility::JSON->render(
       {
-	'success' 	=> $args_href->{'success'},
+	'success' => $args_href->{'success'},
       }
   );
 
   return $json;
 }
-
 
 1;

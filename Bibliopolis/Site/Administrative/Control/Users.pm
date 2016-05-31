@@ -28,7 +28,8 @@ sub default
     )
   );
 
-  print $self->view->render({
+  print $self->view->render(
+    {
       'method' => 'default',
       'users_aref' => \@users,
       'user' => $user
