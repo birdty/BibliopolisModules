@@ -77,7 +77,8 @@ sub find_shell
    
     $self->{'shell'} = Bibliopolis::Site::Administrative::Shell->new({
 	'name' => $name,
-	'type' => $args{'type'}
+	'type' => $args{'type'},
+	'shell_controller' => $self->shell_controller()
     });
     
     return $self->{'shell'};
@@ -124,5 +125,10 @@ sub merge_entity_attributes
 	use strict 'refs';
 }
 
+sub shell_controller
+{
+    my $self = shift;
+    return @_ ? $self->{'shell_controller'} = shift : $self->{'shell_controller'};
+}
 
 1;

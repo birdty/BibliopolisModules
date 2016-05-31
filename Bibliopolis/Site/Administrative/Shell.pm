@@ -53,6 +53,19 @@ sub render
     print("Content-type: " . $html_type . "\n\n");
   }
 
+  my $shell_controller = $self->shell_controller();
+
+  if ( $shell_controller )
+  {
+    my $params_href = $shell_controller->default();
+  
+    foreach my $param ( keys %$params_href )
+    {
+	my $value = $params_href->{$param};
+	$self->{'shell'} =~ s{<<$param>>}{$value}g;
+    }
+  }
+
   return $self->{'shell'};
 }
 

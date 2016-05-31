@@ -149,6 +149,17 @@ sub process_request
 
       use strict 'refs';
 
+      require Bibliopolis::Site::Administrative::Control::Shell;
+
+      my $shell_controller = Bibliopolis::Admininstrative::Control::Shell->new({
+	'parameters'	=> $self->parameters(),
+	'console'	=> $self->console(),
+	'view_type' 	=> $self->{'view_type'},
+	'cookies_href'	=> $cookies_href
+      });
+
+      $controller->shell_controller($shell_controller);
+
       $controller->execute($action);
     }
     catch Error with 
