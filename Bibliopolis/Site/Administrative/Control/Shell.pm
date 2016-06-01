@@ -15,7 +15,10 @@ sub default
       'account_id' => $login_cookie->get_property('account_id')
     );
 
-    return {'name' => $user->name()};
+    if ( $user )
+    {
+      return {'name' => $user->name()};
+    }
 }
 
 

@@ -82,4 +82,11 @@ sub merge
 
 }
 
+sub shell_controller
+{
+	my $self = shift;
+	return @_ ? $self->{'shell_controller'} = shift : $self->{'shell_controller'};
+}
+
+
 1;

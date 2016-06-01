@@ -99,9 +99,6 @@ sub process_request
     {
 	$controller_class_name .=  '::' . join('::', map { ucfirst($_) } @request_parts);
     }
-
-  #  print("[" . $controller_class_name . "]\n");
- #   print("[" . $action . "]\n");
   
     no strict 'refs';
 
@@ -151,7 +148,7 @@ sub process_request
 
       require Bibliopolis::Site::Administrative::Control::Shell;
 
-      my $shell_controller = Bibliopolis::Admininstrative::Control::Shell->new({
+      my $shell_controller = Bibliopolis::Site::Administrative::Control::Shell->new({
 	'parameters'	=> $self->parameters(),
 	'console'	=> $self->console(),
 	'view_type' 	=> $self->{'view_type'},
@@ -187,6 +184,9 @@ sub process_request
 		)
 	)
 	{
+	  print("Content-type: text/plain\n\n");
+	  use Data::Dumper;
+	  print Dumper(\$error);
 	  $self->console->send_message("Error loading page " . $self->console(), Dumper(\$error));
 	}
 	elsif ( ! $controller )
