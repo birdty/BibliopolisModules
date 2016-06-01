@@ -6,9 +6,7 @@ sub default
 {
     my ($self, $args_href) = @_;
 
-    my $shell = $self->find_shell(
-	'type' => 'html'
-    );
+    my $shell = $self->find_shell('type' => 'html');
 
     # shell view should get data from
     # shell controller.
@@ -20,10 +18,6 @@ sub default
     my $row;
 
     my $rows;
-
-    my $user = $args_href->{'user'};
-
-    $contents =~ s{<<name>>}{$user->name()}eg;
 
     foreach my $user ( @{$args_href->{'users_aref'}} )
     {
@@ -43,8 +37,7 @@ sub default
     {	
       $shell->merge(
 	  {
-	    'contents'	=> $contents,
-	    'name'	=> $user->name()
+	    'contents'	=> $contents
 	  }
       );
       return $shell;
